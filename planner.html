@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daily Routine Planner</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background:mintgreen;
+      margin: 2;
+      padding: 0;
+    }
+
+    header {
+      background-color: red;
+      color: white;
+      text-align: center;
+      padding: 20px 0;
+      font-size: 26px;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .time-block {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+      background-color:skyblue;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      padding: 10px;
+    }
+
+    .hour {
+      width: 100px;
+      font-weight: bold;
+    }
+
+    .task input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid ;
+      font-size: 16px;
+      border-radius: 4px;
+    }
+
+    .saveBtn {
+      padding: 10px 15px;
+      margin-left: 10px;
+      background-color:blue;
+      color: orange;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .saveBtn:hover {
+      background-color: purple;
+    }
+  </style>
+</head>
+<body>
+
+<header>My Daily Planner</header>
+
+<div class="container" id="planner">
+  <!-- Dynamic Time Blocks -->
+</div>
+
+<script>
+  const planner = document.getElementById('planner');
+
+  const routine = [
+    { time: "5:00 AM", task: "Wake up" },
+    { time: "6:00 AM", task: "Exercise" },
+    { time: "7:00 AM", task: "Shower & Breakfast" },
+    { time: "8:00 AM", task: "Work / Study" },
+    { time: "9:00 AM", task: "Work / Study" },
+    { time: "10:00 AM", task: "Work / Study" },
+    { time: "11:00 AM", task: "Work / Study" },
+    { time: "12:00 PM", task: "Break / Relax" },
+    { time: "1:00 PM", task: "Lunch" },
+    { time: "2:00 PM", task: "Continue Work" },
+    { time: "3:00 PM", task: "Work / Study" },
+    { time: "4:00 PM", task: "Meetings / Projects" },
+    { time: "5:00 PM", task: "Tea / Break" },
+    { time: "6:00 PM", task: "Walk / Hobbies" },
+    { time: "7:00 PM", task: "Dinner" },
+    { time: "8:00 PM", task: "Relax / TV / Family" },
+    { time: "9:00 PM", task: "Reading / Wind Down" },
+    { time: "10:00 PM", task: "Sleep" }
+  ];
+
+  function loadTasks() {
+    planner.innerHTML = '';
+    routine.forEach((slot, index) => {
+      const saved = localStorage.getItem(`task-${index}`) || slot.task;
+      const block = document.createElement('div');
+      block.className = 'time-block';
+      block.innerHTML = `
+        <div class="hour">${slot.time}</div>
+        <div class="task">
+          <input type="text" id="task-${index}" value="${saved}" />
+        </div>
+        <button class="saveBtn" onclick="saveTask(${index})">Save</button>
+      `;
+      planner.appendChild(block);
+    });
+  }
+
+  function saveTask(index) {
+    const value = document.getElementById(`task-${index}`).value;
+    localStorage.setItem(`task-${index}`, value);
+    alert('Task Saved!');
+  }
+
+  window.onload = loadTasks;
+</script>
+
+</body>
+</html>
